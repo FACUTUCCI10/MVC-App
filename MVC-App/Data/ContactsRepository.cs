@@ -31,7 +31,7 @@ namespace MVC_App.Data
 
         public async Task<Contact?> GetDetailsById(int id)
         {
-            var consulta = @"SELECT Id, FirstName, LastName, Phone, Address 
+            var consulta = @"SELECT Id, FirstName As name, LastName, Phone, Address 
                                    FROM Contacts
                                    WHERE Id = @Id";
 
@@ -44,10 +44,10 @@ namespace MVC_App.Data
                              VALUES (@name,@Lname,@Phone,@Address)";
 
              await _dbconnection.ExecuteAsync(consulta, new {
-                name = contact.FirstName,
-                Lname = contact.LastName,
-                Phone = contact.Phone,
-                Address = contact.Address });
+                contact.FirstName,
+                contact.LastName,
+                contact.Phone,
+                contact.Address });
         }
 
         public async Task Update(Contact contact)
@@ -59,7 +59,13 @@ namespace MVC_App.Data
                                  Address = @Address
                              WHERE Id = @Id";
 
-             await _dbconnection.ExecuteAsync(consulta, new { Id = contact.Id, name = contact.FirstName, Lname = contact.LastName, Phone = contact.Phone, Address = contact.Address });
+             await _dbconnection.ExecuteAsync(consulta, new { 
+                 contact.FirstName, 
+                 contact.LastName,
+                 contact.Phone, 
+                 contact.Address,
+                 contact.Id
+             });
         }
     }
 }

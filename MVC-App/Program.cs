@@ -1,3 +1,4 @@
+using MVC_App.Data;
 using System.Data;
 using System.Data.SqlClient;
 var builder = WebApplication.CreateBuilder(args);
@@ -7,7 +8,7 @@ builder.Services.AddControllersWithViews();
 
 var dbConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddSingleton<IDbConnection>((sp) => new SqlConnection(dbConnectionString));
-
+builder.Services.AddScoped<IContactsRepository,ContactsRepository>(); //inyección de dependencia de 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
