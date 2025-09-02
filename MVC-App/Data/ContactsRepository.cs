@@ -41,25 +41,31 @@ namespace MVC_App.Data
         public async Task Insert(Contact contact)
         {
             var consulta = @"INSERT INTO Contacts (FirstName,LastName,Phone,Address)
-                             VALUES (@name,@Lname,@Phone,@Address)";
+                             VALUES (@Firstname,@LastName,@Phone,@Address)";
 
              await _dbconnection.ExecuteAsync(consulta, new {
-                name = contact.FirstName,
-                Lname = contact.LastName,
-                Phone = contact.Phone,
-                Address = contact.Address });
+                contact.FirstName,
+                contact.LastName,
+                contact.Phone,
+                contact.Address });
         }
 
         public async Task Update(Contact contact)
         {
             var consulta = @"UPDATE Contacts 
-                             SET FirstName = @name,
-                                 LastName = @Lname,
+                             SET FirstName = @Firstname,
+                                 LastName = @Lastname,
                                  Phone = @Phone,
                                  Address = @Address
                              WHERE Id = @Id";
 
-             await _dbconnection.ExecuteAsync(consulta, new { Id = contact.Id, name = contact.FirstName, Lname = contact.LastName, Phone = contact.Phone, Address = contact.Address });
+             await _dbconnection.ExecuteAsync(consulta, new { 
+                 contact.FirstName, 
+                 contact.LastName,
+                 contact.Phone, 
+                 contact.Address,
+                 contact.Id
+             });
         }
     }
 }
